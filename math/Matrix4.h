@@ -19,11 +19,6 @@ public:
     static Matrix4 reflectionXY();
     static Matrix4 reflectionXZ();
     static Matrix4 reflectionYZ();
-    static Matrix4 perspective(double fovRadians, double aspect,
-                               double nearPlane, double farPlane);
-    static Matrix4 orthographic(double left, double right, double bottom, double top,
-                                double nearPlane, double farPlane);
-
     Matrix4 operator*(const Matrix4& other) const;
     Point3D transformPoint(const Point3D& point) const;
 };

@@ -8,37 +8,12 @@
 #include <limits>
 
 namespace {
-struct ProjectedPoint {
-    QPointF point;
-    double depth = 0.0;
-    bool valid = false;
-};
-
 struct DrawFace {
     QPolygonF polygon;
     double depth = 0.0;
     QColor color;
 };
-
-ProjectedPoint projectPoint(const Matrix4& matrix, const Point3D& p)
-{
-    const double in[4] = {p.x, p.y, p.z, 1.0};
-    double out[4] = {0.0, 0.0, 0.0, 0.0};
-    for (int i = 0; i < 4; ++i)
-        for (int j = 0; j < 4; ++j)
-            out[i] += matrix.m[i][j] * in[j];
-
-    if (std::abs(out[3]) < 1e-9)
-        return {};
-
-    ProjectedPoint result;
-    result.point = QPointF(out[0] / out[3], out[1] / out[3]);
-    result.depth = out[2] / out[3];
-    result.valid = std::isfinite(result.point.x()) && std::isfinite(result.point.y())
-                   && std::isfinite(result.depth);
-    return result;
-}
-}
+} // namespace
 
 PolyhedronWidget::PolyhedronWidget(QWidget* parent) : QWidget(parent)
 {
@@ -70,7 +45,6 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
 
     // Use the same scale in screen pixels for X and Y. The fit-to-bounds step below
     // adapts the scene to the available widget size without stretching the model.
-    const Matrix4 projection = Projection::matrix(projectionType, 1.0);
 
     double radius = 1.0;
     const Point3D modelCenter = polyhedron.center();
@@ -85,7 +59,7 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
     QVector<ProjectedPoint> projectedVertices;
     projectedVertices.reserve(polyhedron.vertices.size());
     for (const Point3D& v : polyhedron.vertices)
-        projectedVertices.append(projectPoint(projection, v));
+        projectedVertices.append(Projection::projectPoint(projectionType, v));
 
     // Draw full coordinate axes through the origin, with positive directions labeled.
     const Point3D origin(0.0, 0.0, 0.0);
@@ -105,10 +79,10 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
     const char* axisLabels[3] = {"x", "y", "z"};
 
     QVector<ProjectedPoint> scenePoints = projectedVertices;
-    scenePoints.append(projectPoint(projection, origin));
+    scenePoints.append(Projection::projectPoint(projectionType, origin));
     for (int i = 0; i < 3; ++i) {
-        scenePoints.append(projectPoint(projection, axisStarts[i]));
-        scenePoints.append(projectPoint(projection, axisEnds[i]));
+        scenePoints.append(Projection::projectPoint(projectionType, axisStarts[i]));
+        scenePoints.append(Projection::projectPoint(projectionType, axisEnds[i]));
     }
 
     double minX = std::numeric_limits<double>::max();
@@ -117,10 +91,10 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
     double maxY = -std::numeric_limits<double>::max();
     for (const ProjectedPoint& p : scenePoints) {
         if (!p.valid) continue;
-        minX = qMin(minX, p.point.x());
-        maxX = qMax(maxX, p.point.x());
-        minY = qMin(minY, p.point.y());
-        maxY = qMax(maxY, p.point.y());
+        minX = qMin(minX, p.x);
+        maxX = qMax(maxX, p.x);
+        minY = qMin(minY, p.y);
+        maxY = qMax(maxY, p.y);
     }
     if (minX > maxX || minY > maxY)
         return;
@@ -134,8 +108,8 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
     const QPointF projectedCenter((minX + maxX) * 0.5, (minY + maxY) * 0.5);
 
     auto toScreen = [&](const ProjectedPoint& p) -> QPointF {
-        return QPointF(center.x() + (p.point.x() - projectedCenter.x()) * scale,
-                       center.y() - (p.point.y() - projectedCenter.y()) * scale);
+        return QPointF(center.x() + (p.x - projectedCenter.x()) * scale,
+                       center.y() - (p.y - projectedCenter.y()) * scale);
     };
 
     QVector<QPointF> screenVertices;
@@ -171,10 +145,10 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
 
     // Coordinate axes are drawn behind the model, so they remain visible without
     // obscuring the fixed face colors.
-    const ProjectedPoint projectedOrigin = projectPoint(projection, origin);
+    const ProjectedPoint projectedOrigin = Projection::projectPoint(projectionType, origin);
     for (int i = 0; i < 3; ++i) {
-        const ProjectedPoint start = projectPoint(projection, axisStarts[i]);
-        const ProjectedPoint end = projectPoint(projection, axisEnds[i]);
+        const ProjectedPoint start = Projection::projectPoint(projectionType, axisStarts[i]);
+        const ProjectedPoint end = Projection::projectPoint(projectionType, axisEnds[i]);
         if (!start.valid || !end.valid || !projectedOrigin.valid) continue;
         QPen pen(axisColors[i], 1.5, Qt::DashLine);
         painter.setPen(pen);

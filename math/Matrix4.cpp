@@ -81,34 +81,6 @@ Matrix4 Matrix4::reflectionYZ()
     return scaling(-1.0, 1.0, 1.0);
 }
 
-Matrix4 Matrix4::perspective(double fov, double aspect, double nearPlane, double farPlane)
-{
-    Matrix4 result;
-    const double q = 1.0 / std::tan(fov / 2.0);
-
-    result.m[0][0] = q / aspect;
-    result.m[1][1] = q;
-    result.m[2][2] = (farPlane + nearPlane) / (nearPlane - farPlane);
-    result.m[2][3] = (2.0 * farPlane * nearPlane) / (nearPlane - farPlane);
-    result.m[3][2] = -1.0;
-
-    return result;
-}
-
-Matrix4 Matrix4::orthographic(double left, double right, double bottom, double top,
-                              double nearPlane, double farPlane)
-{
-    Matrix4 result = identity();
-    result.m[0][0] = 2.0 / (right - left);
-    result.m[1][1] = 2.0 / (top - bottom);
-    result.m[2][2] = -2.0 / (farPlane - nearPlane);
-    result.m[0][3] = -(right + left) / (right - left);
-    result.m[1][3] = -(top + bottom) / (top - bottom);
-    result.m[2][3] = -(farPlane + nearPlane) / (farPlane - nearPlane);
-
-    return result;
-}
-
 Matrix4 Matrix4::operator*(const Matrix4& other) const
 {
     Matrix4 result;

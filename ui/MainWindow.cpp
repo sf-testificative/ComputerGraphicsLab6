@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "Transformations.h"
 
 #include <QComboBox>
 #include <QDoubleSpinBox>
@@ -9,7 +10,6 @@
 #include <QHBoxLayout>
 #include <QScrollArea>
 #include <QMessageBox>
-#include "math/Transformations.h"
 
 #include <cmath>
 
