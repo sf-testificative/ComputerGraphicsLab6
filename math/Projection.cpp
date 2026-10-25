@@ -25,7 +25,7 @@ ProjectedPoint projectPoint(ProjectionType type, const Point3D& point)
         result.y = viewed.y;
         result.depth = -viewed.z;
     } else {
-        const double z = viewed.z;
+        const double z = 6.0 - viewed.z;
 
         result.x = viewed.x / z;
         result.y = viewed.y / z;

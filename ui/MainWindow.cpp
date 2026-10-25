@@ -37,7 +37,7 @@ QPushButton* actionButton(const QString& text)
     return button;
 }
 
-} // namespace
+}
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
