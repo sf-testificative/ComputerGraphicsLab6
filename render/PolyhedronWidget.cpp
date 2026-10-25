@@ -13,7 +13,7 @@ struct DrawFace {
     double depth = 0.0;
     QColor color;
 };
-} // namespace
+}
 
 PolyhedronWidget::PolyhedronWidget(QWidget* parent) : QWidget(parent)
 {
@@ -43,8 +43,6 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
     if (polyhedron.vertices.isEmpty())
         return;
 
-    // Use the same scale in screen pixels for X and Y. The fit-to-bounds step below
-    // adapts the scene to the available widget size without stretching the model.
 
     double radius = 1.0;
     const Point3D modelCenter = polyhedron.center();
@@ -61,7 +59,6 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
     for (const Point3D& v : polyhedron.vertices)
         projectedVertices.append(Projection::projectPoint(projectionType, v));
 
-    // Draw full coordinate axes through the origin, with positive directions labeled.
     const Point3D origin(0.0, 0.0, 0.0);
     const Point3D axisEnds[3] = {
         Point3D(axisLength, 0.0, 0.0),
@@ -143,8 +140,6 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
         return a.depth > b.depth;
     });
 
-    // Coordinate axes are drawn behind the model, so they remain visible without
-    // obscuring the fixed face colors.
     const ProjectedPoint projectedOrigin = Projection::projectPoint(projectionType, origin);
     for (int i = 0; i < 3; ++i) {
         const ProjectedPoint start = Projection::projectPoint(projectionType, axisStarts[i]);

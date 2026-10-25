@@ -40,7 +40,6 @@ Matrix4 rotateAroundLine(const Point3D& a, const Point3D& b, double angle)
     y /= length;
     z /= length;
 
-    // Rodrigues' formula builds a rotation matrix around the line direction.
     const double cosine = std::cos(angle);
     const double sine = std::sin(angle);
     const double t = 1.0 - cosine;
@@ -61,4 +60,4 @@ Matrix4 rotateAroundLine(const Point3D& a, const Point3D& b, double angle)
            * Matrix4::translation(-a.x, -a.y, -a.z);
 }
 
-} // namespace Transformations
+}
