@@ -61,7 +61,6 @@ MainWindow::MainWindow(QWidget* parent)
     auto* controls = new QWidget;
     auto* controlsLayout = new QVBoxLayout(controls);
 
-    // Model selection and reset.
     shapeBox = new QComboBox;
     for (int i = 0; i < 5; ++i) {
         shapeBox->addItem(PolyhedronFactory::name(
@@ -76,7 +75,6 @@ MainWindow::MainWindow(QWidget* parent)
     shapeLayout->addRow(resetButton);
     controlsLayout->addWidget(shapeGroup);
 
-    // Projection selection.
     projectionBox = new QComboBox;
     projectionBox->addItems({"Аксонометрическая", "Перспективная"});
 
@@ -85,7 +83,6 @@ MainWindow::MainWindow(QWidget* parent)
     projectionLayout->addRow("Тип:", projectionBox);
     controlsLayout->addWidget(projectionGroup);
 
-    // Parameters used by transformations.
     xBox = numberBox();
     yBox = numberBox();
     zBox = numberBox();
@@ -116,7 +113,6 @@ MainWindow::MainWindow(QWidget* parent)
     auto* scaleButton = actionButton("Масштаб относительно центра");
     controlsLayout->addWidget(scaleButton);
 
-    // Reflection across a coordinate plane.
     planeBox = new QComboBox;
     planeBox->addItems({"XY", "XZ", "YZ"});
     auto* reflectButton = actionButton("Отразить относительно плоскости");
@@ -127,7 +123,6 @@ MainWindow::MainWindow(QWidget* parent)
     reflectionLayout->addWidget(reflectButton);
     controlsLayout->addWidget(reflectionGroup);
 
-    // Rotation around an axis through the polyhedron center.
     axisBox = new QComboBox;
     axisBox->addItems({"X", "Y", "Z"});
     auto* centerRotateButton = actionButton("Вращать вокруг центральной оси");
@@ -138,7 +133,6 @@ MainWindow::MainWindow(QWidget* parent)
     axisLayout->addWidget(centerRotateButton);
     controlsLayout->addWidget(axisGroup);
 
-    // Rotation around an arbitrary line through points A and B.
     axBox = numberBox(-1.0);
     ayBox = numberBox();
     azBox = numberBox();

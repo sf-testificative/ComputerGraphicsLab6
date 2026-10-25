@@ -79,7 +79,6 @@ Polyhedron createDodecahedron()
     Polyhedron polyhedron;
     const Polyhedron icosahedron = createIcosahedron();
 
-    // Each vertex of the dual dodecahedron is the center of an icosahedron face.
     for (const Polygon& face : icosahedron.faces) {
         Point3D center;
         for (int vertexIndex : face.indices) {
@@ -152,7 +151,7 @@ Polyhedron createDodecahedron()
     return polyhedron;
 }
 
-} // namespace
+}
 
 Polyhedron PolyhedronFactory::create(Type type)
 {
