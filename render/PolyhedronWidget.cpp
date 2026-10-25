@@ -11,7 +11,6 @@ namespace {
 struct DrawFace {
     QPolygonF polygon;
     double depth = 0.0;
-    QColor color;
 };
 }
 
@@ -121,7 +120,6 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
     QVector<DrawFace> faces;
     for (const Polygon& face : polyhedron.faces) {
         DrawFace drawFace;
-        drawFace.color = face.color;
         bool validFace = !face.indices.isEmpty();
         for (int index : face.indices) {
             if (index < 0 || index >= screenVertices.size() || !projectedVertices[index].valid) {
@@ -155,7 +153,7 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
 
     painter.setPen(QPen(QColor(35, 45, 58), 1.4));
     for (const DrawFace& face : faces) {
-        painter.setBrush(face.color);
+        painter.setBrush(QColor(255, 255, 255));
         painter.drawPolygon(face.polygon);
     }
 }
