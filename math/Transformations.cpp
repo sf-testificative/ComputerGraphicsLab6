@@ -6,9 +6,7 @@ namespace Transformations {
 
 Matrix4 scaleAroundCenter(const Point3D& center, double factor)
 {
-    return Matrix4::translation(center.x, center.y, center.z)
-           * Matrix4::scaling(factor, factor, factor)
-           * Matrix4::translation(-center.x, -center.y, -center.z);
+    return Matrix4::translation(center.x, center.y, center.z) * Matrix4::scaling(factor, factor, factor) * Matrix4::translation(-center.x, -center.y, -center.z);
 }
 
 Matrix4 rotateAroundCenterAxis(const Point3D& center, int axis, double angle)
@@ -20,9 +18,7 @@ Matrix4 rotateAroundCenterAxis(const Point3D& center, int axis, double angle)
         rotation = Matrix4::rotationY(angle);
     }
 
-    return Matrix4::translation(center.x, center.y, center.z)
-           * rotation
-           * Matrix4::translation(-center.x, -center.y, -center.z);
+    return Matrix4::translation(center.x, center.y, center.z) * rotation * Matrix4::translation(-center.x, -center.y, -center.z);
 }
 
 Matrix4 rotateAroundLine(const Point3D& a, const Point3D& b, double angle)
@@ -55,9 +51,7 @@ Matrix4 rotateAroundLine(const Point3D& a, const Point3D& b, double angle)
     rotation.m[2][1] = t * y * z + sine * x;
     rotation.m[2][2] = t * z * z + cosine;
 
-    return Matrix4::translation(a.x, a.y, a.z)
-           * rotation
-           * Matrix4::translation(-a.x, -a.y, -a.z);
+    return Matrix4::translation(a.x, a.y, a.z) * rotation * Matrix4::translation(-a.x, -a.y, -a.z);
 }
 
 }

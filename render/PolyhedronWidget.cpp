@@ -104,8 +104,7 @@ void PolyhedronWidget::paintEvent(QPaintEvent*)
     const QPointF projectedCenter((minX + maxX) * 0.5, (minY + maxY) * 0.5);
 
     auto toScreen = [&](const ProjectedPoint& p) -> QPointF {
-        return QPointF(center.x() + (p.x - projectedCenter.x()) * scale,
-                       center.y() - (p.y - projectedCenter.y()) * scale);
+        return QPointF(center.x() + (p.x - projectedCenter.x()) * scale, center.y() - (p.y - projectedCenter.y()) * scale);
     };
 
     QVector<QPointF> screenVertices;

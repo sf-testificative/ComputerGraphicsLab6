@@ -17,10 +17,7 @@ namespace {
 
 constexpr double kPi = 3.14159265358979323846;
 
-QDoubleSpinBox* numberBox(double value = 0.0,
-                          double minimum = -1000.0,
-                          double maximum = 1000.0,
-                          int decimals = 2)
+QDoubleSpinBox* numberBox(double value = 0.0, double minimum = -1000.0, double maximum = 1000.0, int decimals = 2)
 {
     auto* spinBox = new QDoubleSpinBox;
     spinBox->setRange(minimum, maximum);
@@ -39,9 +36,7 @@ QPushButton* actionButton(const QString& text)
 
 }
 
-MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent),
-      view(new PolyhedronWidget),
+MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), view(new PolyhedronWidget),
       current(PolyhedronFactory::create(PolyhedronFactory::Hexahedron))
 {
     setWindowTitle("Правильные многогранники — 3D преобразования");
@@ -171,16 +166,13 @@ MainWindow::MainWindow(QWidget* parent)
 
     view->setPolyhedron(current);
 
-    connect(shapeBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, [this](int index) {
-                loadShape(index);
+    connect(shapeBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index) {
+        loadShape(index);
             });
 
     connect(projectionBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, [this](int index) {
-                const ProjectionType type = index == 0
-                    ? ProjectionType::Axonometric
-                    : ProjectionType::Perspective;
+                const ProjectionType type = index == 0 ? ProjectionType::Axonometric : ProjectionType::Perspective;
                 view->setProjectionType(type);
             });
 
@@ -212,9 +204,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(reflectButton, &QPushButton::clicked, this, [this]() {
         const int index = planeBox->currentIndex();
-        const Matrix4 reflection = index == 0
-            ? Matrix4::reflectionXY()
-            : (index == 1 ? Matrix4::reflectionXZ() : Matrix4::reflectionYZ());
+        const Matrix4 reflection = index == 0 ? Matrix4::reflectionXY() : (index == 1 ? Matrix4::reflectionXZ() : Matrix4::reflectionYZ());
         apply(reflection);
     });
 
@@ -228,8 +218,7 @@ MainWindow::MainWindow(QWidget* parent)
         const Point3D b(bxBox->value(), byBox->value(), bzBox->value());
 
         if (std::abs(a.x - b.x) + std::abs(a.y - b.y) + std::abs(a.z - b.z) < 1e-9) {
-            QMessageBox::warning(this, "Неверная прямая",
-                                 "Точки A и B должны различаться.");
+            QMessageBox::warning(this, "Неверная прямая", "Точки A и B должны различаться.");
             return;
         }
 

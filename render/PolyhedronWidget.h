@@ -1,4 +1,6 @@
-#pragma once
+#ifndef POLYHEDRON_WIDGET_H
+#define POLYHEDRON_WIDGET_H
+
 #include <QWidget>
 #include "../geometry/Polyhedron.h"
 #include "../math/Projection.h"
@@ -15,3 +17,5 @@ private:
     Polyhedron polyhedron;
     ProjectionType projectionType = ProjectionType::Axonometric;
 };
+
+#endif

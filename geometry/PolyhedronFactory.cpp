@@ -46,9 +46,7 @@ Polyhedron createIcosahedron()
     double shortestEdgeSquared = 1e9;
     for (int i = 0; i < polyhedron.vertices.size(); ++i) {
         for (int j = i + 1; j < polyhedron.vertices.size(); ++j) {
-            shortestEdgeSquared = std::min(
-                shortestEdgeSquared,
-                distanceSquared(polyhedron.vertices[i], polyhedron.vertices[j]));
+            shortestEdgeSquared = std::min(shortestEdgeSquared, distanceSquared(polyhedron.vertices[i], polyhedron.vertices[j]));
         }
     }
 
@@ -63,8 +61,7 @@ Polyhedron createIcosahedron()
                 if (std::abs(ij - shortestEdgeSquared) < 1e-6
                     && std::abs(ik - shortestEdgeSquared) < 1e-6
                     && std::abs(jk - shortestEdgeSquared) < 1e-6) {
-                    polyhedron.faces.append(
-                        Polygon({i, j, k}, faceColor(faceIndex++)));
+                    polyhedron.faces.append(Polygon({i, j, k}, faceColor(faceIndex++)));
                 }
             }
         }
@@ -106,11 +103,8 @@ Polyhedron createDodecahedron()
         }
 
         const Point3D center = icosahedron.vertices[vertexIndex];
-        const double normalLength = std::sqrt(
-            center.x * center.x + center.y * center.y + center.z * center.z);
-        const Point3D normal(center.x / normalLength,
-                             center.y / normalLength,
-                             center.z / normalLength);
+        const double normalLength = std::sqrt(center.x * center.x + center.y * center.y + center.z * center.z);
+        const Point3D normal(center.x / normalLength, center.y / normalLength, center.z / normalLength);
 
         Point3D u(std::abs(normal.x) < 0.8 ? 1.0 : 0.0,
                   std::abs(normal.x) < 0.8 ? 0.0 : 1.0,

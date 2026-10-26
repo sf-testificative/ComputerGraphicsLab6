@@ -1,4 +1,5 @@
-#pragma once
+#ifndef POLYHEDRON_H
+#define POLYHEDRON_H
 
 #include <QVector>
 
@@ -15,3 +16,5 @@ public:
     Point3D center() const;
     void normalizeSize(double targetRadius = 1.6);
 };
+
+#endif

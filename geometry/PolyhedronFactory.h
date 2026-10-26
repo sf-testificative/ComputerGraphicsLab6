@@ -1,4 +1,5 @@
-#pragma once
+#ifndef POLYHEDRON_FACTORY_H
+#define POLYHEDRON_FACTORY_H
 
 #include <QString>
 
@@ -17,3 +18,5 @@ public:
     static Polyhedron create(Type type);
     static QString name(Type type);
 };
+
+#endif

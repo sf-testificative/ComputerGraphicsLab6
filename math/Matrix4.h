@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MATRIX4_H
+#define MATRIX4_H
 
 #include <array>
 
@@ -22,3 +23,5 @@ public:
     Matrix4 operator*(const Matrix4& other) const;
     Point3D transformPoint(const Point3D& point) const;
 };
+
+#endif

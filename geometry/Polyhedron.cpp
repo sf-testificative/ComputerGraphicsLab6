@@ -47,7 +47,6 @@ void Polyhedron::normalizeSize(double targetRadius)
 
     if (maxRadius > 1e-9) {
         const double scale = targetRadius / maxRadius;
-        applyMatrix(Matrix4::translation(-centerPoint.x, -centerPoint.y, -centerPoint.z)
-                    * Matrix4::scaling(scale, scale, scale));
+        applyMatrix(Matrix4::translation(-centerPoint.x, -centerPoint.y, -centerPoint.z) * Matrix4::scaling(scale, scale, scale));
     }
 }

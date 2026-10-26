@@ -1,4 +1,5 @@
-#pragma once
+#ifndef POINT3D_H
+#define POINT3D_H
 
 struct Point3D {
     double x = 0.0;
@@ -6,8 +7,7 @@ struct Point3D {
     double z = 0.0;
 
     Point3D() = default;
-    Point3D(double xValue, double yValue, double zValue)
-        : x(xValue), y(yValue), z(zValue)
-    {
-    }
+    Point3D(double xValue, double yValue, double zValue): x(xValue), y(yValue), z(zValue) { }
 };
+
+#endif

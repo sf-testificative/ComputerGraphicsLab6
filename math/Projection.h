@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PROJECTION_H
+#define PROJECTION_H
 
 #include "../geometry/Point3D.h"
 
@@ -19,3 +20,5 @@ namespace Projection {
 ProjectedPoint projectPoint(ProjectionType type, const Point3D& point);
 
 }
+
+#endif

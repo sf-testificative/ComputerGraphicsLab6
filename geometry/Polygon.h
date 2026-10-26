@@ -1,4 +1,5 @@
-#pragma once
+#ifndef POLYGON_H
+#define POLYGON_H
 
 #include <QColor>
 #include <QVector>
@@ -9,9 +10,7 @@ public:
     QColor color;
 
     Polygon() = default;
-    explicit Polygon(const QVector<int>& vertexIndices,
-                     const QColor& faceColor = QColor(95, 160, 210))
-        : indices(vertexIndices), color(faceColor)
-    {
-    }
+    explicit Polygon(const QVector<int>& vertexIndices, const QColor& faceColor = QColor(95, 160, 210)): indices(vertexIndices), color(faceColor) { }
 };
+
+#endif
